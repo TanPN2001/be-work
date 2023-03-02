@@ -1,13 +1,22 @@
 const bcrypt = require("bcrypt");
-const Candidate = require("../../models/Candidate.model");
+
 const config = require("../../configs/config");
 const jwt = require("../../middleware/jwt");
 
-const register = async (req, res) => {
-  const { fullName, email, password } = req.body;
-  const candidateFind = await Candidate.findOne({ email: email });
+const Candidate = require("../../models/Candidate.model");
+const Admin = require("../../models/Admin.model");
+const Company = require("../../models/Company.model");
+const User = require("../../models/User.model");
 
-  if (!candidateFind) {
+const register = async (req, res) => {
+  const { fullName, email, password, role } = req.body;
+
+  const candidateFind = await Candidate.findOne({ email: email });
+  const adminFind = await Admin.findOne({ email: email });
+  const companyFind = await Company.findOne({ email: email });
+  const userFind = await Company.findOne({ email: email });
+
+  if (!userFind) {
     try {
       const hash = bcrypt.hashSync(password, 10);
 
@@ -32,28 +41,29 @@ const register = async (req, res) => {
         refresh_token,
       ]);
 
-      const candidate = new Candidate({
+      const user = new User({
         fullName,
         email,
         password: hash,
+        role,
         accessToken,
         refreshToken,
       });
 
-      await candidate.save();
-      res.status(200).send({
+      await user.save();
+      return res.status(200).send({
         status: config.STATUS.OK,
         msg: "Register successful !!!",
       });
     } catch (error) {
       console.log(error);
-      res.status(500).send({
+      return res.status(500).send({
         status: config.STATUS.INTERNAL_SERVER_ERROR,
         msg: "Error server !!!",
       });
     }
   } else {
-    res.status(400).send({
+    return res.status(400).send({
       status: config.STATUS.BAD_REQUEST,
       massage: "Email is exist !!!",
     });
@@ -61,8 +71,8 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await Candidate.findOne({ email: email });
+  const { email, password, role } = req.body;
+  const user = await User.findOne({ email: email, role: role });
 
   if (user) {
     const hashPass = bcrypt.compareSync(password, user.password);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const CompanyShema = new mongoose.Schema({
+const UserShema = new mongoose.Schema({
   fullName: {
     type: String,
   },
@@ -9,16 +9,16 @@ const CompanyShema = new mongoose.Schema({
   password: {
     type: String,
   },
+  role: {
+    type: Number,
+  },
   accessToken: {
     type: String,
   },
   refreshToken: {
     type: String,
   },
-  role: {
-    type: Number,
-  }
 });
 
-const Company = mongoose.model("companies", CompanyShema);
-module.exports = Company;
+const User = mongoose.model("users", UserShema);
+module.exports = User;
