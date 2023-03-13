@@ -3,17 +3,11 @@ const bcrypt = require("bcrypt");
 const config = require("../../configs/config");
 const jwt = require("../../middleware/jwt");
 
-const Candidate = require("../../models/Candidate.model");
-const Admin = require("../../models/Admin.model");
-const Company = require("../../models/Company.model");
 const User = require("../../models/User.model");
 
 const register = async (req, res) => {
   const { fullName, email, password, role } = req.body;
 
-  const candidateFind = await Candidate.findOne({ email: email });
-  const adminFind = await Admin.findOne({ email: email });
-  const companyFind = await Company.findOne({ email: email });
   const userFind = await Company.findOne({ email: email });
 
   if (!userFind) {

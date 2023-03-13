@@ -1,7 +1,8 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const UserShema = new mongoose.Schema({
-  fullName: {
-    type: String,
+  role_id: {
+    type: ObjectId,
   },
   email: {
     type: String,
@@ -9,8 +10,11 @@ const UserShema = new mongoose.Schema({
   password: {
     type: String,
   },
-  role: {
-    type: Number,
+  fullname: {
+    type: String,
+  },
+  phone: {
+    type: String,
   },
   accessToken: {
     type: String,
@@ -18,6 +22,10 @@ const UserShema = new mongoose.Schema({
   refreshToken: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+  },
+  updatedAt: { type: Date },
 });
 
 const User = mongoose.model("users", UserShema);

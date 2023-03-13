@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const url =
-  "mongodb+srv://harrypotterface:20194371@cluster0.hvfzkdw.mongodb.net/BE-WORK?retryWrites=true&w=majority";
+  "mongodb+srv://harrypotterface:20194371@cluster0.vrkohsj.mongodb.net/BE-WORK?retryWrites=true&w=majority";
 async function connectDB() {
   try {
     await mongoose
