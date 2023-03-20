@@ -1,4 +1,5 @@
 const User = require("../models/User.model");
+const Work = require("../models/Work.model");
 
 const editProfileService = async (data, id) => {
   try {
@@ -55,4 +56,71 @@ const getUserService = async (id) => {
   }
 };
 
-module.exports = { editProfileService, getUserService };
+const getNumUserService = async () => {
+  try {
+    const num = await User.countDocuments({
+      role: 2,
+    });
+
+    if (num)
+      return {
+        result: "success",
+        num: num,
+      };
+    return {
+      result: "failed",
+      reason: "server error",
+    };
+  } catch (error) {
+    return {
+      result: "failed",
+      error: error,
+    };
+  }
+};
+
+const getNumCompanyService = async () => {
+  try {
+    const num = await User.countDocuments({
+      role: 1,
+    });
+
+    if (num)
+      return {
+        result: "success",
+        num: num,
+      };
+    return {
+      result: "failed",
+      reason: "server error",
+    };
+  } catch (error) {
+    return {
+      result: "failed",
+      error: error,
+    };
+  }
+};
+
+const getNumWorkService = async () => {
+  try {
+    const num = await Work.countDocuments({});
+
+    if (num)
+      return {
+        result: "success",
+        num: num,
+      };
+    return {
+      result: "failed",
+      reason: "server error",
+    };
+  } catch (error) {
+    return {
+      result: "failed",
+      error: error,
+    };
+  }
+};
+
+module.exports = { editProfileService, getUserService, getNumUserService, getNumCompanyService,getNumWorkService };
